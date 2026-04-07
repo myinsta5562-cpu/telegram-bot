@@ -20,8 +20,8 @@ Validity :- lifetime
 """
 
     markup = InlineKeyboardMarkup(row_width=1)
-    btn1 = InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
-    btn2 = InlineKeyboardButton("🎬 Premium Demo", url="https://t.me/your_demo_channel")
+    btn1 = InlineKeyboardButton("💎 Buy Premium", callback_data="get_premium")
+    btn2 = InlineKeyboardButton("🥵 Demo Videos", url="https://t.me/your_demo_channel")
     btn3 = InlineKeyboardButton("📖 How To Get Premium", callback_data="how_to")
 
     markup.add(btn1, btn2, btn3)
