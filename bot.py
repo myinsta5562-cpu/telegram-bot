@@ -1,58 +1,73 @@
-import os
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# Railway token
-API_TOKEN = '8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk'
-bot = telebot.TeleBot(API_TOKEN)
+TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
+bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
-def welcome(message):
-    caption = (
-        Available Videos Collection?
-"1. Mom Son videos - 5000+
+def start(message):
+    text = """🎬 Video Channel 🌸
 
-2. Sister Brother videos -2000+
+For Desi Content Lovers 😋  
+No Sn#p, Pure Desi Content 😚  
+rare Desi le#ks ever.... 🎀  
 
-3. Cp kids videos - 15000+
+Just pay and get entry...  
+No - Ads Sh#t 🔥  
 
-4. R@pe & Force videos-3000+
+Price :- ₹199 /-  
+Validity :- lifetime
+"""
 
-5. Teen Girl. Videos - 6000+
-
-6. Indian desi videos - 10000+
-
-7. Hidden cam videos - 2000+"
-    )
-
-    markup = InlineKeyboardMarkup()
+    markup = InlineKeyboardMarkup(row_width=1)
     btn1 = InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
-    btn2 = InlineKeyboardButton("🎬 Premium Demo", url="https://t.me/your_demo_link")
+    btn2 = InlineKeyboardButton("🎬 Premium Demo", url="https://t.me/your_demo_channel")
     btn3 = InlineKeyboardButton("📖 How To Get Premium", callback_data="how_to")
-    
-    markup.add(btn1)
-    markup.add(btn2)
-    markup.add(btn3)
 
-    # Local file 'start.jpg' ko open karke bhejne ke liye
-    try:
-        with open('start.jpg', 'rb') as photo:
-            bot.send_photo(
-                message.chat.id, 
-                photo, 
-                caption=caption, 
-                parse_mode="Markdown", 
-                reply_markup=markup
-            )
-    except FileNotFoundError:
-        # Agar file nahi mili toh sirf text bhej dega
-        bot.send_message(message.chat.id, caption, parse_mode="Markdown", reply_markup=markup)
+    markup.add(btn1, btn2, btn3)
+
+    # 👉 LOCAL IMAGE SEND
+    photo = open("start.jpg", "rb")
+    bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
-def callback_query(call):
-    if call.data == "get_premium":
-        bot.send_message(call.message.chat.id, "Payment ke liye Admin ko contact karein: @YourAdminUsername")
-    elif call.data == "how_to":
-        bot.send_message(call.message.chat.id, "1. Payment karein\n2. Screenshot bheinjein\n3. Link mil jayegi.")
+def callback(call):
 
-bot.polling()
+    if call.data == "get_premium":
+        bot.send_message(
+            call.message.chat.id,
+            """💳 Payment Details:
+
+UPI ID: yourupi@upi
+Amount: ₹199
+
+Payment karke niche button dabao 👇""",
+            reply_markup=InlineKeyboardMarkup().add(
+                InlineKeyboardButton("✅ I Have Paid", callback_data="paid")
+            )
+        )
+
+    elif call.data == "paid":
+        bot.send_message(
+            call.message.chat.id,
+            "📸 Please send payment screenshot for verification."
+        )
+
+    elif call.data == "how_to":
+        bot.send_message(
+            call.message.chat.id,
+            """📖 How To Get Premium:
+
+1. Get Premium button dabao  
+2. Payment karo  
+3. Screenshot bhejo  
+4. Admin verify karega  
+5. Access mil jayega ✅"""
+        )
+
+@bot.message_handler(content_types=['photo'])
+def screenshot(message):
+    bot.reply_to(message, "✅ Screenshot sent for verification.")
+
+print("Bot running...")
+bot.infinity_polling()
