@@ -10,13 +10,13 @@ def get_file_id(message):
     file_id = message.video.file_id
     bot.reply_to(message, f"FILE ID:\n{file_id}")
 
-# ===== DEMO VIDEOS (IDs yaha daalna baad me) =====
+# ===== DEMO VIDEOS =====
 demo_videos = [
     "BAACAgUAAxkBAAMkadS8phVxKxUtmJQ4kuLXDu1DuBIAAmAhAAKE06lWgs4sanWVVEA7BA",
     "BAACAgUAAxkBAAMwadS-rz_FkHn5Dsd5YZQ9IvxsOJAAAnQhAAKE06lWwsYhNgyJvXA7BA",
     "BAACAgUAAxkBAAMyadS-uqVpPgizUcGpNeKy2mK3bgUAAnYhAAKE06lWbKsvsXZt5kY7BA",
     "BAACAgUAAxkBAAM0adS-vzcwfFe6UwJZ7t23GY1xyokAAnchAAKE06lWOKnU0-KfdcI7BA",
-    "BAACAgUAAxkBAAM2adS-0qFCsLomd57XAAGE1pN0X6esAAJ5IQAChNOpVuPO3f0KOI1pOwQ"
+    "BAACAgUAAxkBAAM2adS-0qFCsLomd57XAAGE1pN0X6esAAJ5IQAChNOpVuPO3f0KOI1pOwQ",
     "BAACAgUAAxkBAAM4adS-4C3t9qGRGkO8-0kP-aSwoAcAAnwhAAKE06lWqqdih3__4O87BA"
 ]
 
@@ -67,7 +67,9 @@ def callback(call):
             call.message.chat.id,
             demo_videos[index],
             caption=f"🔞 Demo Video {index+1}",
-            reply_markup=markup
+            reply_markup=markup,
+            supports_streaming=True,
+            protect_content=True
         )
 
     # ===== NEXT / PREV =====
@@ -76,14 +78,11 @@ def callback(call):
         action = data[0]
         index = int(data[1])
 
+        # 🔁 LOOP FIX
         if action == "next":
-            index += 1
-            if index >= len(demo_videos):
-                index = 0
+            index = (index + 1) % len(demo_videos)
         else:
-            index -= 1
-            if index < 0:
-                index = len(demo_videos) - 1
+            index = (index - 1) % len(demo_videos)
 
         markup = InlineKeyboardMarkup(row_width=2)
         markup.add(
@@ -98,14 +97,15 @@ def callback(call):
             bot.edit_message_media(
                 media=InputMediaVideo(
                     demo_videos[index],
-                    caption=f"🔞 Demo Video {index+1}"
+                    caption=f"🔞 Demo Video {index+1}",
+                    supports_streaming=True
                 ),
                 chat_id=call.message.chat.id,
                 message_id=call.message.message_id,
                 reply_markup=markup
             )
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     # ===== PAYMENT =====
     elif call.data == "get_premium":
