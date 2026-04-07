@@ -1,18 +1,16 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
 
-TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
+TOKEN = "YOUR_BOT_TOKEN_HERE"
+bot = telebot.TeleBot(TOKEN)
 
-bot = telebot.TeleBot(TOKEN)   ✅ (PEHLE YE)
-
-# 👇 FIR YE
+# ===== FILE ID EXTRACTOR (TEMPORARY) =====
 @bot.message_handler(content_types=['video'])
 def get_file_id(message):
     file_id = message.video.file_id
     bot.reply_to(message, f"FILE ID:\n{file_id}")
-bot = telebot.TeleBot(TOKEN)
 
-# ===== DEMO VIDEOS (yaha apne 5 video file_id ya link daalo) =====
+# ===== DEMO VIDEOS (IDs yaha daalna baad me) =====
 demo_videos = [
     "VIDEO_FILE_ID_1",
     "VIDEO_FILE_ID_2",
@@ -47,11 +45,11 @@ Validity :- lifetime
     photo = open("start.jpg", "rb")
     bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
 
-# ===== CALLBACK HANDLER =====
+# ===== CALLBACK =====
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
 
-    # ===== DEMO VIDEOS START =====
+    # ===== DEMO =====
     if call.data == "demo":
         index = 0
 
@@ -70,6 +68,43 @@ def callback(call):
             caption=f"🔞 Demo Video {index+1}",
             reply_markup=markup
         )
+
+    # ===== NEXT / PREV =====
+    elif call.data.startswith("next_") or call.data.startswith("prev_"):
+        data = call.data.split("_")
+        action = data[0]
+        index = int(data[1])
+
+        if action == "next":
+            index += 1
+            if index >= len(demo_videos):
+                index = 0
+        else:
+            index -= 1
+            if index < 0:
+                index = len(demo_videos) - 1
+
+        markup = InlineKeyboardMarkup(row_width=2)
+        markup.add(
+            InlineKeyboardButton("👉 Previous", callback_data=f"prev_{index}"),
+            InlineKeyboardButton("👉 Next", callback_data=f"next_{index}")
+        )
+        markup.add(
+            InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
+        )
+
+        try:
+            bot.edit_message_media(
+                media=InputMediaVideo(
+                    demo_videos[index],
+                    caption=f"🔞 Demo Video {index+1}"
+                ),
+                chat_id=call.message.chat.id,
+                message_id=call.message.message_id,
+                reply_markup=markup
+            )
+        except:
+            pass
 
     # ===== PAYMENT =====
     elif call.data == "get_premium":
@@ -106,45 +141,7 @@ Payment karke niche button dabao 👇""",
 5. Access mil jayega ✅"""
         )
 
-    # ===== VIDEO NAVIGATION =====
-    elif call.data.startswith("next_") or call.data.startswith("prev_"):
-        data = call.data.split("_")
-        action = data[0]
-        index = int(data[1])
-
-        if action == "next":
-            index += 1
-            if index >= len(demo_videos):
-                index = 0
-
-        elif action == "prev":
-            index -= 1
-            if index < 0:
-                index = len(demo_videos) - 1
-
-        markup = InlineKeyboardMarkup(row_width=2)
-        markup.add(
-            InlineKeyboardButton("👉 Previous", callback_data=f"prev_{index}"),
-            InlineKeyboardButton("👉 Next", callback_data=f"next_{index}")
-        )
-        markup.add(
-            InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
-        )
-
-        try:
-            bot.edit_message_media(
-                media=InputMediaVideo(
-                    demo_videos[index],
-                    caption=f"🔞 Demo Video {index+1}"
-                ),
-                chat_id=call.message.chat.id,
-                message_id=call.message.message_id,
-                reply_markup=markup
-            )
-        except:
-            pass
-
-# ===== SCREENSHOT RECEIVE =====
+# ===== SCREENSHOT =====
 @bot.message_handler(content_types=['photo'])
 def screenshot(message):
     bot.reply_to(message, "✅ Screenshot sent for verification.")
