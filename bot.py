@@ -157,8 +157,8 @@ def callback(call):
             bot.send_message(call.message.chat.id, "❌ No order found")
             return
 
-        merchantid = "NzmDCR37225908023870"
-        merchantkey = "NzmDCR37225908023870"
+        merchantid = "aFpena57399629842621"
+        merchantkey = "aFpena57399629842621"
 
         url = f"https://anujbots.xyz/paytm/verify.php?orderid={orderid}&merchantid={merchantid}&merchantkey={merchantkey}"
 
