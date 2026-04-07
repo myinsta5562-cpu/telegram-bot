@@ -12,11 +12,12 @@ def get_file_id(message):
 
 # ===== DEMO VIDEOS (IDs yaha daalna baad me) =====
 demo_videos = [
-    "VIDEO_FILE_ID_1",
-    "VIDEO_FILE_ID_2",
-    "VIDEO_FILE_ID_3",
-    "VIDEO_FILE_ID_4",
-    "VIDEO_FILE_ID_5"
+    "BAACAgUAAxkBAAMkadS8phVxKxUtmJQ4kuLXDu1DuBIAAmAhAAKE06lWgs4sanWVVEA7BA",
+    "BAACAgUAAxkBAAMwadS-rz_FkHn5Dsd5YZQ9IvxsOJAAAnQhAAKE06lWwsYhNgyJvXA7BA",
+    "BAACAgUAAxkBAAMyadS-uqVpPgizUcGpNeKy2mK3bgUAAnYhAAKE06lWbKsvsXZt5kY7BA",
+    "BAACAgUAAxkBAAM0adS-vzcwfFe6UwJZ7t23GY1xyokAAnchAAKE06lWOKnU0-KfdcI7BA",
+    "BAACAgUAAxkBAAM2adS-0qFCsLomd57XAAGE1pN0X6esAAJ5IQAChNOpVuPO3f0KOI1pOwQ"
+    "BAACAgUAAxkBAAM4adS-4C3t9qGRGkO8-0kP-aSwoAcAAnwhAAKE06lWqqdih3__4O87BA"
 ]
 
 # ===== START =====
