@@ -52,60 +52,67 @@ def callback(call):
 
     # ===== DEMO =====
     if call.data == "demo":
-        index = 0
+    index = 0
 
-        markup = InlineKeyboardMarkup(row_width=2)
-        markup.add(
-            InlineKeyboardButton("👉 Previous", callback_data=f"prev_{index}"),
-            InlineKeyboardButton("👉 Next", callback_data=f"next_{index}")
-        )
-        markup.add(
-            InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
-        )
+    markup = InlineKeyboardMarkup(row_width=2)
+    markup.add(
+        InlineKeyboardButton("👉 Next", callback_data=f"next_{index}")
+    )
+    markup.add(
+        InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
+    )
 
-        bot.send_video(
-            call.message.chat.id,
-            demo_videos[index],
-            caption=f"🔞 Demo Video {index+1}",
-            reply_markup=markup,
-            supports_streaming=True,
-            protect_content=True
+    bot.send_video(
+        call.message.chat.id,
+        demo_videos[index],
+        caption=f"🔞 Demo Video {index+1}",
+        reply_markup=markup,
+        supports_streaming=True,
+        protect_content=True
         )
 
     # ===== NEXT / PREV =====
     elif call.data.startswith("next_") or call.data.startswith("prev_"):
-        data = call.data.split("_")
-        action = data[0]
-        index = int(data[1])
+    data = call.data.split("_")
+    action = data[0]
+    index = int(data[1])
 
-        # 🔁 LOOP FIX
-        if action == "next":
-            index = (index + 1) % len(demo_videos)
-        else:
-            index = (index - 1) % len(demo_videos)
+    # ✅ NO LOOP (limit set)
+    if action == "next":
+        if index < len(demo_videos) - 1:
+            index += 1
+    else:
+        if index > 0:
+            index -= 1
 
-        markup = InlineKeyboardMarkup(row_width=2)
-        markup.add(
-            InlineKeyboardButton("👉 Previous", callback_data=f"prev_{index}"),
-            InlineKeyboardButton("👉 Next", callback_data=f"next_{index}")
+    # ✅ BUTTON LOGIC
+    markup = InlineKeyboardMarkup(row_width=2)
+
+    buttons = []
+    if index > 0:
+        buttons.append(InlineKeyboardButton("👉 Previous", callback_data=f"prev_{index}"))
+    if index < len(demo_videos) - 1:
+        buttons.append(InlineKeyboardButton("👉 Next", callback_data=f"next_{index}"))
+
+    markup.add(*buttons)
+
+    markup.add(
+        InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
+    )
+
+    try:
+        bot.edit_message_media(
+            media=InputMediaVideo(
+                demo_videos[index],
+                caption=f"🔞 Demo Video {index+1}",
+                supports_streaming=True
+            ),
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            reply_markup=markup
         )
-        markup.add(
-            InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
-        )
-
-        try:
-            bot.edit_message_media(
-                media=InputMediaVideo(
-                    demo_videos[index],
-                    caption=f"🔞 Demo Video {index+1}",
-                    supports_streaming=True
-                ),
-                chat_id=call.message.chat.id,
-                message_id=call.message.message_id,
-                reply_markup=markup
-            )
-        except Exception as e:
-            print(e)
+    except Exception as e:
+        print(e)
 
     # ===== PAYMENT =====
     elif call.data == "get_premium":
