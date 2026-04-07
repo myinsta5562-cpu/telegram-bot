@@ -1,8 +1,13 @@
 import telebot
+import requests
+import random
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
 
 TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
 bot = telebot.TeleBot(TOKEN)
+
+# ===== USER ORDER STORAGE =====
+user_orders = {}
 
 # ===== DEMO VIDEOS =====
 demo_videos = [
@@ -71,7 +76,6 @@ def callback(call):
         action = data[0]
         index = int(data[1])
 
-        # no loop
         if action == "next":
             if index < len(demo_videos) - 1:
                 index += 1
@@ -108,27 +112,66 @@ def callback(call):
         except Exception as e:
             print(e)
 
-    # ===== PAYMENT =====
+    # ===== GET PREMIUM (QR SYSTEM) =====
     elif call.data == "get_premium":
-        markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton("✅ I Have Paid", callback_data="paid"))
+        upi = "paytm.s1zxmoz@pty"
 
-        bot.send_message(
-            call.message.chat.id,
-            """💳 Payment Details:
+        orderid = str(random.randint(100000, 999999))
+        user_orders[call.from_user.id] = orderid
 
-UPI ID: yourupi@upi  
-Amount: ₹199  
+        url = f"https://paytm.anujbots.xyz/qr.php?upi={upi}&orderid={orderid}"
 
-Payment karke niche button dabao 👇""",
-            reply_markup=markup
-        )
+        try:
+            res = requests.get(url).json()
 
-    elif call.data == "paid":
-        bot.send_message(
-            call.message.chat.id,
-            "📸 Please send payment screenshot for verification."
-        )
+            if res.get("success"):
+                qr = res.get("qr_url")
+
+                markup = InlineKeyboardMarkup()
+                markup.add(
+                    InlineKeyboardButton("✅ Verify Payment", callback_data="verify")
+                )
+
+                bot.send_photo(
+                    call.message.chat.id,
+                    qr,
+                    caption=f"💰 Scan & Pay\n\nOrder ID: {orderid}",
+                    reply_markup=markup
+                )
+            else:
+                bot.send_message(call.message.chat.id, "❌ QR generate failed")
+
+        except:
+            bot.send_message(call.message.chat.id, "❌ Server error")
+
+    # ===== VERIFY PAYMENT =====
+    elif call.data == "verify":
+        orderid = user_orders.get(call.from_user.id)
+
+        if not orderid:
+            bot.send_message(call.message.chat.id, "❌ No order found")
+            return
+
+        merchantid = "NzmDCR37225908023870"
+        merchantkey = "NzmDCR37225908023870"
+
+        url = f"https://anujbots.xyz/paytm/verify.php?orderid={orderid}&merchantid={merchantid}&merchantkey={merchantkey}"
+
+        try:
+            res = requests.get(url).json()
+
+            if res.get("success") and res.get("status") == "TXN_SUCCESS":
+                amount = res.get("amount")
+
+                bot.send_message(
+                    call.message.chat.id,
+                    f"✅ Payment Successful\n\n💰 Amount: ₹{amount}\n🔓 Access Granted"
+                )
+            else:
+                bot.send_message(call.message.chat.id, "🚫 Payment not completed yet")
+
+        except:
+            bot.send_message(call.message.chat.id, "❌ Verification failed")
 
     # ===== HOW TO =====
     elif call.data == "how_to":
@@ -137,16 +180,10 @@ Payment karke niche button dabao 👇""",
             """📖 How To Get Premium:
 
 1. Get Premium button dabao  
-2. Payment karo  
-3. Screenshot bhejo  
-4. Admin verify karega  
-5. Access mil jayega ✅"""
+2. QR scan karke payment karo  
+3. Verify Payment button dabao  
+4. Access mil jayega ✅"""
         )
-
-# ===== SCREENSHOT =====
-@bot.message_handler(content_types=['photo'])
-def screenshot(message):
-    bot.reply_to(message, "✅ Screenshot sent for verification.")
 
 # ===== RUN =====
 print("Bot running...")
