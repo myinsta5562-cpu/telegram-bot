@@ -1,7 +1,7 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
 
-TOKEN = "YOUR_BOT_TOKEN_HERE"
+TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
 bot = telebot.TeleBot(TOKEN)
 
 # ===== FILE ID EXTRACTOR (TEMPORARY) =====
