@@ -69,7 +69,7 @@ def callback(call):
         reply_markup=markup,
         supports_streaming=True,
         protect_content=True
-        )
+    )
 
     # ===== NEXT / PREV =====
     elif call.data.startswith("next_") or call.data.startswith("prev_"):
