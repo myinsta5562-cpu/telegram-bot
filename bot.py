@@ -1,6 +1,7 @@
 import telebot
 import requests
 import random
+import urllib.parse
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
 
 TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
@@ -31,7 +32,7 @@ rare Desi le#ks ever.... 🎀
 Just pay and get entry...  
 No - Ads Sh#t 🔥  
 
-Price :- ₹199 /-  
+Price :- ₹5 /-  
 Validity :- lifetime
 """
 
@@ -49,7 +50,7 @@ Validity :- lifetime
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
 
-    # ===== DEMO START =====
+    # ===== DEMO =====
     if call.data == "demo":
         index = 0
 
@@ -115,11 +116,14 @@ def callback(call):
     # ===== GET PREMIUM (QR SYSTEM) =====
     elif call.data == "get_premium":
         upi = "paytm.s1zssxv@pty"
+        amount = "5"
+
+        upi_encoded = urllib.parse.quote(upi)
 
         orderid = str(random.randint(100000, 999999))
         user_orders[call.from_user.id] = orderid
 
-        url = f"https://paytm.anujbots.xyz/qr.php?upi={upi}&orderid={orderid}"
+        url = f"https://paytm.anujbots.xyz/qr.php?upi={upi_encoded}&amount={amount}&orderid={orderid}"
 
         try:
             res = requests.get(url).json()
@@ -135,16 +139,17 @@ def callback(call):
                 bot.send_photo(
                     call.message.chat.id,
                     qr,
-                    caption=f"💰 Scan & Pay\n\nOrder ID: {orderid}",
+                    caption=f"💰 Scan & Pay\n\nUPI: {upi}\nAmount: ₹{amount}\nOrder ID: {orderid}",
                     reply_markup=markup
                 )
             else:
                 bot.send_message(call.message.chat.id, "❌ QR generate failed")
 
-        except:
+        except Exception as e:
+            print(e)
             bot.send_message(call.message.chat.id, "❌ Server error")
 
-    # ===== VERIFY PAYMENT =====
+    # ===== VERIFY =====
     elif call.data == "verify":
         orderid = user_orders.get(call.from_user.id)
 
@@ -179,9 +184,9 @@ def callback(call):
             call.message.chat.id,
             """📖 How To Get Premium:
 
-1. Get Premium button dabao  
-2. QR scan karke payment karo  
-3. Verify Payment button dabao  
+1. Get Premium dabao  
+2. QR scan karke ₹5 pay karo  
+3. Verify Payment dabao  
 4. Access mil jayega ✅"""
         )
 
