@@ -2,6 +2,10 @@ import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
 
 TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
+
+bot = telebot.TeleBot(TOKEN)   ✅ (PEHLE YE)
+
+# 👇 FIR YE
 @bot.message_handler(content_types=['video'])
 def get_file_id(message):
     file_id = message.video.file_id
