@@ -51,7 +51,7 @@ Validity :- lifetime
 def callback(call):
 
     # ===== DEMO =====
-    if call.data == "demo":
+if call.data == "demo":
     index = 0
 
     markup = InlineKeyboardMarkup(row_width=2)
