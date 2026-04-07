@@ -160,7 +160,7 @@ def callback(call):
         merchantid = "aFpena57399629842621"
         merchantkey = "aFpena57399629842621"
 
-        url = f"https://anujbots.xyz/paytm/verify.php?orderid={orderid}&merchantid={aFpena57399629842621}&merchantkey={aFpena57399629842621}"
+        url = f"https://anujbots.xyz/paytm/verify.php?orderid={orderid}&merchantid={merchantid}&merchantkey={merchantkey}"
 
         try:
             res = requests.get(url).json()
