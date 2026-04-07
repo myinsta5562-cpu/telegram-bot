@@ -114,7 +114,7 @@ def callback(call):
 
     # ===== GET PREMIUM (QR SYSTEM) =====
     elif call.data == "get_premium":
-        upi = "paytm.s1zxmoz@pty"
+        upi = "paytm.s1zssxv@pty"
 
         orderid = str(random.randint(100000, 999999))
         user_orders[call.from_user.id] = orderid
