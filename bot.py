@@ -3,7 +3,7 @@ import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # Railway token
-API_TOKEN = os.getenv('8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk')
+API_TOKEN = '8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk'
 bot = telebot.TeleBot(API_TOKEN)
 
 @bot.message_handler(commands=['start'])
