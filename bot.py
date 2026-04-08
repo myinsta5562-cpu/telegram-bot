@@ -44,7 +44,7 @@ Validity :- lifetime
     markup.add(
         InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
         InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
-        InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/your_channel_link")  # 🔥 FIX
+        InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+-heSylYPn5pmYWE1")  # 🔥 FIX
     )
 
     photo = open("start.jpg", "rb")
@@ -226,7 +226,7 @@ def callback(call):
         markup.add(
             InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
             InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
-            InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/your_channel_link")  # 🔥 SAME FIX
+            InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+-heSylYPn5pmYWE1")  # 🔥 SAME FIX
         )
 
         bot.edit_message_media(
