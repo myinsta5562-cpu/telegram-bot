@@ -9,7 +9,7 @@ TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
 bot = telebot.TeleBot(TOKEN)
 
 user_orders = {}
-used_users = set()  # 🔥 FIX ADDED
+used_orders = set()  # ✅ FIX
 
 plans = {
     "plan1": {"name": "R@P Videos", "price": "99", "link": "https://t.me/+xjrUu9DY2-g3Njll"},
@@ -213,11 +213,12 @@ def callback(call):
         res = requests.get(url).json()
 
         if res.get("success") and res.get("status") == "TXN_SUCCESS":
-            if orderid in used_orders:
-    bot.send_message(call.message.chat.id, "⚠️ You have already received access")
-    return
 
-used_orders.add(orderid)
+            if orderid in used_orders:
+                bot.send_message(call.message.chat.id, "⚠️ You have already received access")
+                return
+
+            used_orders.add(orderid)
 
             amount = res.get("amount")
 
