@@ -8,10 +8,8 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMedia
 TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
 bot = telebot.TeleBot(TOKEN)
 
-# ===== USER ORDER STORAGE =====
 user_orders = {}
 
-# ===== DEMO VIDEOS =====
 demo_videos = [
     "BAACAgUAAxkBAAMkadS8phVxKxUtmJQ4kuLXDu1DuBIAAmAhAAKE06lWgs4sanWVVEA7BA",
     "BAACAgUAAxkBAAMwadS-rz_FkHn5Dsd5YZQ9IvxsOJAAAnQhAAKE06lWwsYhNgyJvXA7BA",
@@ -27,34 +25,35 @@ def start(message):
     text = """🎬 Video Channel 🌸
 
 For Desi Content Lovers 😋  
-No Sn#p, Pure Desi Content 😚  
 
-Price :- ₹5 /-  
+Price :- ₹5 /-
 Validity :- lifetime"""
 
     markup = InlineKeyboardMarkup(row_width=1)
     markup.add(
         InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
-        InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
-        InlineKeyboardButton("📖 How To Get Premium", callback_data="how_to")
+        InlineKeyboardButton("🥵 Demo Videos", callback_data="demo")
     )
 
-    bot.send_message(message.chat.id, text, reply_markup=markup)
+    # 🔥 IMAGE FIX (link use)
+    bot.send_photo(
+        message.chat.id,
+        "https://i.ibb.co/3W3ZQ9k/sample.jpg",
+        caption=text,
+        reply_markup=markup
+    )
 
 # ===== CALLBACK =====
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
 
-    # ===== DEMO START =====
+    # ===== DEMO =====
     if call.data == "demo":
         index = 0
 
         markup = InlineKeyboardMarkup(row_width=2)
         markup.add(
             InlineKeyboardButton("👉 Next", callback_data=f"next_{index}")
-        )
-        markup.add(
-            InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
         )
 
         bot.send_video(
@@ -66,47 +65,30 @@ def callback(call):
             protect_content=True
         )
 
-    # ===== NEXT / PREV =====
-    elif call.data.startswith("next_") or call.data.startswith("prev_"):
-        data = call.data.split("_")
-        action = data[0]
-        index = int(data[1])
+    # ===== NEXT =====
+    elif call.data.startswith("next_"):
+        index = int(call.data.split("_")[1])
 
-        if action == "next":
-            if index < len(demo_videos) - 1:
-                index += 1
-        else:
-            if index > 0:
-                index -= 1
-
-        markup = InlineKeyboardMarkup(row_width=2)
-
-        buttons = []
-        if index > 0:
-            buttons.append(InlineKeyboardButton("👉 Previous", callback_data=f"prev_{index}"))
         if index < len(demo_videos) - 1:
-            buttons.append(InlineKeyboardButton("👉 Next", callback_data=f"next_{index}"))
+            index += 1
 
-        if buttons:
-            markup.add(*buttons)
-
+        markup = InlineKeyboardMarkup()
         markup.add(
-            InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")
+            InlineKeyboardButton("👉 Next", callback_data=f"next_{index}")
         )
 
         try:
             bot.edit_message_media(
                 media=InputMediaVideo(
                     demo_videos[index],
-                    caption=f"🔞 Demo Video {index+1}",
-                    supports_streaming=True
+                    caption=f"🔞 Demo Video {index+1}"
                 ),
                 chat_id=call.message.chat.id,
                 message_id=call.message.message_id,
                 reply_markup=markup
             )
-        except Exception as e:
-            print(e)
+        except:
+            pass
 
     # ===== GET PREMIUM =====
     elif call.data == "get_premium":
@@ -120,60 +102,58 @@ def callback(call):
         url = f"https://paytm.anujbots.xyz/qr.php?upi={upi}&amount={amount}&name={urllib.parse.quote(name)}"
 
         try:
-            res = requests.get(url).json()
+            res = requests.get(url, timeout=10)
 
-            if res.get("success"):
-                qr = res.get("qr")
+            if res.status_code == 200:
+                try:
+                    data = res.json()
+                except:
+                    bot.send_message(call.message.chat.id, "❌ API error")
+                    return
 
-                markup = InlineKeyboardMarkup()
-                markup.add(
-                    InlineKeyboardButton("✅ Verify Payment", callback_data="verify")
-                )
+                if data.get("success"):
+                    qr = data.get("qr")
 
-                bot.send_photo(
-                    call.message.chat.id,
-                    qr,
-                    caption=f"💰 Scan & Pay\n\nUPI: {upi}\nAmount: ₹{amount}\nOrder ID: {orderid}",
-                    reply_markup=markup
-                )
+                    markup = InlineKeyboardMarkup()
+                    markup.add(
+                        InlineKeyboardButton("✅ Verify Payment", callback_data="verify")
+                    )
+
+                    bot.send_photo(
+                        call.message.chat.id,
+                        qr,
+                        caption=f"💰 Pay ₹{amount}\n\nOrder ID: {orderid}",
+                        reply_markup=markup
+                    )
+                else:
+                    bot.send_message(call.message.chat.id, "❌ QR failed")
+
             else:
-                bot.send_message(call.message.chat.id, "❌ QR failed")
+                bot.send_message(call.message.chat.id, "❌ Server down")
 
-        except Exception as e:
-            print(e)
-            bot.send_message(call.message.chat.id, "❌ Server error")
+        except:
+            # 🔥 FALLBACK (important)
+            bot.send_message(
+                call.message.chat.id,
+                f"💰 Pay manually:\nUPI: {upi}\nAmount: ₹{amount}"
+            )
 
     # ===== VERIFY =====
     elif call.data == "verify":
         orderid = user_orders.get(call.from_user.id)
 
-        if not orderid:
-            bot.send_message(call.message.chat.id, "❌ No order found")
-            return
-
-        merchantid = "NzmDCR37225908023870"
-        merchantkey = "NzmDCR37225908023870"
-
-        url = f"https://paytm.anujbots.xyz/verify.php?orderid={orderid}&merchantid={merchantid}&merchantkey={merchantkey}"
+        url = f"https://paytm.anujbots.xyz/verify.php?orderid={orderid}&merchantid=NzmDCR37225908023870&merchantkey=NzmDCR37225908023870"
 
         try:
-            res = requests.get(url).json()
-            print(res)
+            res = requests.get(url, timeout=10).json()
 
             if res.get("success") and res.get("status") == "TXN_SUCCESS":
-                bot.send_message(call.message.chat.id, "✅ Payment Successful 🔓 Access Granted")
+                bot.send_message(call.message.chat.id, "✅ Payment Successful 🔓")
             else:
-                bot.send_message(call.message.chat.id, "⏳ Payment Pending / Not Found")
+                bot.send_message(call.message.chat.id, "⏳ Not detected (retry)")
 
         except:
-            bot.send_message(call.message.chat.id, "❌ Verification failed")
-
-    # ===== HOW TO =====
-    elif call.data == "how_to":
-        bot.send_message(
-            call.message.chat.id,
-            "📖 How To Get Premium:\n\n1. Get Premium dabao\n2. QR scan karke ₹5 pay karo\n3. Verify dabao\n4. Access mil jayega"
-        )
+            bot.send_message(call.message.chat.id, "❌ Verify error")
 
 # ===== RUN =====
 print("Bot running...")
