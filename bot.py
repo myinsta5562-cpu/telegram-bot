@@ -213,13 +213,11 @@ def callback(call):
         res = requests.get(url).json()
 
         if res.get("success") and res.get("status") == "TXN_SUCCESS":
-            user_id = call.from_user.id
+            if orderid in used_orders:
+    bot.send_message(call.message.chat.id, "⚠️ You have already received access")
+    return
 
-            if user_id in used_users:
-                bot.send_message(call.message.chat.id, "⚠️ You have already received access")
-                return
-
-            used_users.add(user_id)
+used_orders.add(orderid)
 
             amount = res.get("amount")
 
