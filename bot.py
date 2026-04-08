@@ -9,6 +9,7 @@ TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
 bot = telebot.TeleBot(TOKEN)
 
 user_orders = {}
+used_users = set()  # 🔥 FIX ADDED
 
 plans = {
     "plan1": {"name": "R@P Videos", "price": "99", "link": "https://t.me/+xjrUu9DY2-g3Njll"},
@@ -48,7 +49,7 @@ def start(message):
     markup.add(
         InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
         InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
-        InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+-heSylYPn5pmYWE1")  # 🔥 FIX
+        InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+-heSylYPn5pmYWE1")
     )
 
     photo = open("start.jpg", "rb")
@@ -183,7 +184,7 @@ def callback(call):
 
             markup = InlineKeyboardMarkup(row_width=1)
             markup.add(
-                InlineKeyboardButton("✅ GET PRIVATE CHANNEL LINK", callback_data="verify"),
+                InlineKeyboardButton("✅ Verify Payment", callback_data="verify"),
                 InlineKeyboardButton("🔙 Back", callback_data="get_premium")
             )
 
@@ -212,6 +213,14 @@ def callback(call):
         res = requests.get(url).json()
 
         if res.get("success") and res.get("status") == "TXN_SUCCESS":
+            user_id = call.from_user.id
+
+            if user_id in used_users:
+                bot.send_message(call.message.chat.id, "⚠️ You have already received access")
+                return
+
+            used_users.add(user_id)
+
             amount = res.get("amount")
 
             plan_key = user_orders.get(call.from_user.id)
@@ -230,7 +239,7 @@ def callback(call):
         markup.add(
             InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
             InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
-            InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+-heSylYPn5pmYWE1")  # 🔥 SAME FIX
+            InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+-heSylYPn5pmYWE1")
         )
 
         bot.edit_message_media(
