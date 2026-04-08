@@ -59,7 +59,10 @@ def callback(call):
 
         markup = InlineKeyboardMarkup(row_width=2)
         markup.add(InlineKeyboardButton("👉 Next", callback_data=f"next_{index}"))
-        markup.add(InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"))
+        markup.add(
+            InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
+            InlineKeyboardButton("🔙 Back", callback_data="back_start")
+        )
 
         bot.send_video(
             call.message.chat.id,
@@ -93,7 +96,10 @@ def callback(call):
         if buttons:
             markup.add(*buttons)
 
-        markup.add(InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"))
+        markup.add(
+            InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
+            InlineKeyboardButton("🔙 Back", callback_data="back_start")
+        )
 
         bot.edit_message_media(
             media=InputMediaVideo(
@@ -112,7 +118,8 @@ def callback(call):
             InlineKeyboardButton("👉 R@P Videos - ₹50", callback_data="buy_plan1"),
             InlineKeyboardButton("👉 Child Videos - ₹100", callback_data="buy_plan2"),
             InlineKeyboardButton("👉 All in One Group - ₹150", callback_data="buy_plan3"),
-            InlineKeyboardButton("👉 All in One (50 Groups) - ₹300", callback_data="buy_plan4")
+            InlineKeyboardButton("👉 All in One (50 Groups) - ₹300", callback_data="buy_plan4"),
+            InlineKeyboardButton("🔙 Back", callback_data="back_start")
         )
 
         bot.edit_message_media(
@@ -203,6 +210,35 @@ def callback(call):
 2. QR scan karke ₹5 pay karo
 3. Verify Payment dabao
 4. Access mil jayega ✅"""
+        )
+
+    elif call.data == "back_start":
+        markup = InlineKeyboardMarkup(row_width=1)
+        markup.add(
+            InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
+            InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
+            InlineKeyboardButton("📖 How To Get Premium", callback_data="how_to")
+        )
+
+        bot.edit_message_media(
+            media=InputMediaPhoto(
+                open("start.jpg", "rb"),
+                caption="""🎬 Video Channel 🌸
+
+For Desi Content Lovers 😋
+No Sn#p, Pure Desi Content 😚
+rare Desi le#ks ever.... 🎀
+
+Just pay and get entry...
+No - Ads Sh#t 🔥
+
+Price :- ₹5 /-
+Validity :- lifetime
+"""
+            ),
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            reply_markup=markup
         )
 
 print("Bot running...")
