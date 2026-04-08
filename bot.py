@@ -75,6 +75,91 @@ def callback(call):
 
         if action == "next":
             if index < len(demo_videos) - 1:
+import telebot
+import requests
+import random
+import urllib.parse
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
+
+TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
+bot = telebot.TeleBot(TOKEN)
+
+# ===== USER ORDER STORAGE =====
+user_orders = {}
+
+# ===== PLANS =====
+plans = {
+    "plan1": {"name": "R@P Videos", "price": "50"},
+    "plan2": {"name": "Child Videos (50K+)", "price": "100"},
+    "plan3": {"name": "All in One Group", "price": "150"},
+    "plan4": {"name": "All in One (50 Groups)", "price": "300"}
+}
+
+# ===== DEMO VIDEOS =====
+demo_videos = [
+"BAACAgUAAxkBAAMkadS8phVxKxUtmJQ4kuLXDu1DuBIAAmAhAAKE06lWgs4sanWVVEA7BA",
+"BAACAgUAAxkBAAMwadS-rz_FkHn5Dsd5YZQ9IvxsOJAAAnQhAAKE06lWwsYhNgyJvXA7BA",
+"BAACAgUAAxkBAAMyadS-uqVpPgizUcGpNeKy2mK3bgUAAnYhAAKE06lWbKsvsXZt5kY7BA",
+"BAACAgUAAxkBAAM0adS-vzcwfFe6UwJZ7t23GY1xyokAAnchAAKE06lWOKnU0-KfdcI7BA",
+"BAACAgUAAxkBAAM2adS-0qFCsLomd57XAAGE1pN0X6esAAJ5IQAChNOpVuPO3f0KOI1pOwQ",
+"BAACAgUAAxkBAAM4adS-4C3t9qGRGkO8-0kP-aSwoAcAAnwhAAKE06lWqqdih3__4O87BA"
+]
+
+# ===== START =====
+@bot.message_handler(commands=['start'])
+def start(message):
+    text = """🎬 Video Channel 🌸
+
+For Desi Content Lovers 😋
+No Sn#p, Pure Desi Content 😚
+rare Desi le#ks ever.... 🎀
+
+Just pay and get entry...
+No - Ads Sh#t 🔥
+
+Price :- ₹5 /-
+Validity :- lifetime
+"""
+
+    markup = InlineKeyboardMarkup(row_width=1)
+    markup.add(
+        InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
+        InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
+        InlineKeyboardButton("📖 How To Get Premium", callback_data="how_to")
+    )
+
+    photo = open("start.jpg", "rb")
+    bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
+
+# ===== CALLBACK =====
+@bot.callback_query_handler(func=lambda call: True)
+def callback(call):
+
+    # ===== DEMO =====
+    if call.data == "demo":
+        index = 0
+
+        markup = InlineKeyboardMarkup(row_width=2)    
+        markup.add(InlineKeyboardButton("👉 Next", callback_data=f"next_{index}"))    
+        markup.add(InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"))    
+
+        bot.send_video(
+            call.message.chat.id,
+            demo_videos[index],
+            caption=f"🔞 Demo Video {index+1}",
+            reply_markup=markup,
+            supports_streaming=True,
+            protect_content=True
+        )
+
+    # ===== NEXT / PREV =====
+    elif call.data.startswith("next_") or call.data.startswith("prev_"):
+        data = call.data.split("_")
+        action = data[0]
+        index = int(data[1])
+
+        if action == "next":
+            if index < len(demo_videos) - 1:
                 index += 1
         else:
             if index > 0:
@@ -107,10 +192,36 @@ def callback(call):
         except Exception as e:
             print(e)
 
-    # ===== GET PREMIUM (FIXED QR SYSTEM) =====
+    # ===== SHOW PLANS =====
     elif call.data == "get_premium":
+        markup = InlineKeyboardMarkup(row_width=1)
+        markup.add(
+            InlineKeyboardButton("👉 R@P Videos - ₹50", callback_data="buy_plan1"),
+            InlineKeyboardButton("👉 Child Videos - ₹100", callback_data="buy_plan2"),
+            InlineKeyboardButton("👉 All in One Group - ₹150", callback_data="buy_plan3"),
+            InlineKeyboardButton("👉 All in One (50 Groups) - ₹300", callback_data="buy_plan4")
+        )
+
+        photo = open("plans.jpg", "rb")
+
+        bot.send_photo(
+            call.message.chat.id,
+            photo,
+            caption="🔥 Choose Your Plan:",
+            reply_markup=markup
+        )
+
+    # ===== BUY PLAN (QR SYSTEM) =====
+    elif call.data.startswith("buy_"):
+        plan_key = call.data.split("_")[1]
+        plan = plans.get(plan_key)
+
+        if not plan:
+            bot.send_message(call.message.chat.id, "❌ Plan not found")
+            return
+
         upi = "paytm.s1zssxv@pty"
-        amount = "1"
+        amount = plan["price"]
         name = "paikarma"
 
         upi_encoded = urllib.parse.quote(upi)
@@ -120,11 +231,11 @@ def callback(call):
 
         try:
             res = requests.get(url).json()
-            print(res)  # debug
+            print(res)
 
             if res.get("success"):
                 qr = res.get("qr_url")
-                orderid = res.get("order_id")   # 🔥 FIX
+                orderid = res.get("order_id")
 
                 if not orderid:
                     bot.send_message(call.message.chat.id, "❌ Order ID not received")
@@ -140,7 +251,7 @@ def callback(call):
                 bot.send_photo(
                     call.message.chat.id,
                     qr,
-                    caption=f"💰 Scan & Pay\n\nUPI: {upi}\nAmount: ₹{amount}\nOrder ID: {orderid}",
+                    caption=f"💰 Plan: {plan['name']}\n💵 Amount: ₹{amount}\n🆔 Order ID: {orderid}",
                     reply_markup=markup
                 )
             else:
@@ -165,7 +276,7 @@ def callback(call):
 
         try:
             res = requests.get(url).json()
-            print(res)  # debug
+            print(res)
 
             if res.get("success") and res.get("status") == "TXN_SUCCESS":
                 amount = res.get("amount")
