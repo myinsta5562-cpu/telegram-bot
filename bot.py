@@ -107,25 +107,30 @@ def callback(call):
         except Exception as e:
             print(e)
 
-    # ===== GET PREMIUM (QR SYSTEM) =====
+    # ===== GET PREMIUM (FIXED QR SYSTEM) =====
     elif call.data == "get_premium":
         upi = "paytm.s1zssxv@pty"
-        amount = "5"
-        name = "paikarma"
+        amount = "100"
+        name = "ANUJ BOTS"
 
         upi_encoded = urllib.parse.quote(upi)
         name_encoded = urllib.parse.quote(name)
 
-        orderid = f"ORD_{random.randint(1000000000,9999999999)}"
-        user_orders[call.from_user.id] = orderid
-
-        url = f"https://paytm.anujbots.xyz/qr.php?upi={upi_encoded}&amount={amount}&name={name_encoded}&orderid={orderid}"
+        url = f"https://paytm.anujbots.xyz/qr.php?upi={upi_encoded}&amount={amount}&name={name_encoded}"
 
         try:
             res = requests.get(url).json()
+            print(res)  # debug
 
             if res.get("success"):
                 qr = res.get("qr_url")
+                orderid = res.get("orderid")   # 🔥 FIX
+
+                if not orderid:
+                    bot.send_message(call.message.chat.id, "❌ Order ID not received")
+                    return
+
+                user_orders[call.from_user.id] = orderid
 
                 markup = InlineKeyboardMarkup()
                 markup.add(
@@ -160,6 +165,7 @@ def callback(call):
 
         try:
             res = requests.get(url).json()
+            print(res)  # debug
 
             if res.get("success") and res.get("status") == "TXN_SUCCESS":
                 amount = res.get("amount")
