@@ -7,10 +7,8 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMedia
 TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
 bot = telebot.TeleBot(TOKEN)
 
-# ===== USER ORDER STORAGE =====
 user_orders = {}
 
-# ===== PLANS =====
 plans = {
     "plan1": {"name": "R@P Videos", "price": "50"},
     "plan2": {"name": "Child Videos (50K+)", "price": "100"},
@@ -18,7 +16,6 @@ plans = {
     "plan4": {"name": "All in One (50 Groups)", "price": "300"}
 }
 
-# ===== DEMO VIDEOS =====
 demo_videos = [
     "BAACAgUAAxkBAAMkadS8phVxKxUtmJQ4kuLXDu1DuBIAAmAhAAKE06lWgs4sanWVVEA7BA",
     "BAACAgUAAxkBAAMwadS-rz_FkHn5Dsd5YZQ9IvxsOJAAAnQhAAKE06lWwsYhNgyJvXA7BA",
@@ -28,7 +25,6 @@ demo_videos = [
     "BAACAgUAAxkBAAM4adS-4C3t9qGRGkO8-0kP-aSwoAcAAnwhAAKE06lWqqdih3__4O87BA"
 ]
 
-# ===== START =====
 @bot.message_handler(commands=['start'])
 def start(message):
     text = """🎬 Video Channel 🌸
@@ -54,7 +50,7 @@ Validity :- lifetime
     photo = open("start.jpg", "rb")
     bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
 
-# ===== CALLBACK =====
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
 
@@ -99,21 +95,17 @@ def callback(call):
 
         markup.add(InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"))
 
-        try:
-            bot.edit_message_media(
-                media=InputMediaVideo(
-                    demo_videos[index],
-                    caption=f"🔞 Demo Video {index+1}",
-                    supports_streaming=True
-                ),
-                chat_id=call.message.chat.id,
-                message_id=call.message.message_id,
-                reply_markup=markup
-            )
-        except Exception as e:
-            print(e)
+        bot.edit_message_media(
+            media=InputMediaVideo(
+                demo_videos[index],
+                caption=f"🔞 Demo Video {index+1}",
+                supports_streaming=True
+            ),
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            reply_markup=markup
+        )
 
-    # ===== SHOW PLANS (EDIT MESSAGE) =====
     elif call.data == "get_premium":
         markup = InlineKeyboardMarkup(row_width=1)
         markup.add(
@@ -150,38 +142,33 @@ def callback(call):
 
         url = f"https://paytm.anujbots.xyz/qr.php?upi={upi_encoded}&amount={amount}&name={name_encoded}"
 
-        try:
-            res = requests.get(url).json()
-            print(res)
+        res = requests.get(url).json()
 
-            if res.get("success"):
-                qr = res.get("qr_url")
-                orderid = res.get("order_id")
+        if res.get("success"):
+            qr = res.get("qr_url")
+            orderid = res.get("order_id")
 
-                if not orderid:
-                    bot.send_message(call.message.chat.id, "❌ Order ID not received")
-                    return
+            if not orderid:
+                bot.send_message(call.message.chat.id, "❌ Order ID not received")
+                return
 
-                user_orders[call.from_user.id] = orderid
+            user_orders[call.from_user.id] = orderid
 
-                markup = InlineKeyboardMarkup()
-                markup.add(
-                    InlineKeyboardButton("✅ Verify Payment", callback_data="verify"),
-                    InlineKeyboardButton("🔙 Back", callback_data="get_premium")
-                )
+            markup = InlineKeyboardMarkup(row_width=1)
+            markup.add(
+                InlineKeyboardButton("✅ Verify Payment", callback_data="verify"),
+                InlineKeyboardButton("🔙 Back", callback_data="get_premium")
+            )
 
-                bot.send_photo(
-                    call.message.chat.id,
+            bot.edit_message_media(
+                media=InputMediaPhoto(
                     qr,
-                    caption=f"💰 Plan: {plan['name']}\n💵 Amount: ₹{amount}\n🆔 Order ID: {orderid}",
-                    reply_markup=markup
-                )
-            else:
-                bot.send_message(call.message.chat.id, "❌ QR generate failed")
-
-        except Exception as e:
-            print(e)
-            bot.send_message(call.message.chat.id, "❌ Server error")
+                    caption=f"💰 Plan: {plan['name']}\n💵 Amount: ₹{amount}\n🆔 Order ID: {orderid}"
+                ),
+                chat_id=call.message.chat.id,
+                message_id=call.message.message_id,
+                reply_markup=markup
+            )
 
     elif call.data == "verify":
         orderid = user_orders.get(call.from_user.id)
@@ -195,22 +182,17 @@ def callback(call):
 
         url = f"https://paytm.anujbots.xyz/verify.php?orderid={orderid}&merchantid={merchantid}&merchantkey={merchantkey}"
 
-        try:
-            res = requests.get(url).json()
-            print(res)
+        res = requests.get(url).json()
 
-            if res.get("success") and res.get("status") == "TXN_SUCCESS":
-                amount = res.get("amount")
+        if res.get("success") and res.get("status") == "TXN_SUCCESS":
+            amount = res.get("amount")
 
-                bot.send_message(
-                    call.message.chat.id,
-                    f"✅ Payment Successful\n\n💰 Amount: ₹{amount}\n🔓 Access Granted"
-                )
-            else:
-                bot.send_message(call.message.chat.id, "🚫 Payment not completed yet")
-
-        except:
-            bot.send_message(call.message.chat.id, "❌ Verification failed")
+            bot.send_message(
+                call.message.chat.id,
+                f"✅ Payment Successful\n\n💰 Amount: ₹{amount}\n🔓 Access Granted"
+            )
+        else:
+            bot.send_message(call.message.chat.id, "🚫 Payment not completed yet")
 
     elif call.data == "how_to":
         bot.send_message(
