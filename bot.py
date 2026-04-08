@@ -11,9 +11,9 @@ bot = telebot.TeleBot(TOKEN)
 user_orders = {}
 
 plans = {
-    "plan1": {"name": "R@P Videos", "price": "50"},
-    "plan2": {"name": "Child Videos (50K+)", "price": "100"},
-    "plan3": {"name": "All in One (50 Groups)", "price": "300"}
+    "plan1": {"name": "R@P Videos", "price": "50", "link": "https://t.me/your_channel1"},
+    "plan2": {"name": "Child Videos (50K+)", "price": "100", "link": "https://t.me/your_channel2"},
+    "plan3": {"name": "All in One (50 Groups)", "price": "300", "link": "https://t.me/your_channel3"}
 }
 
 demo_videos = [
@@ -154,6 +154,8 @@ def callback(call):
             bot.send_message(call.message.chat.id, "❌ Plan not found")
             return
 
+        user_orders[call.from_user.id] = plan_key  # 🔥 store plan
+
         upi = "paytm.s1zssxv@pty"
         amount = plan["price"]
         name = "paikarma"
@@ -173,7 +175,7 @@ def callback(call):
                 bot.send_message(call.message.chat.id, "❌ Order ID not received")
                 return
 
-            user_orders[call.from_user.id] = orderid
+            user_orders[str(call.from_user.id)+"_order"] = orderid
 
             markup = InlineKeyboardMarkup(row_width=1)
             markup.add(
@@ -192,7 +194,7 @@ def callback(call):
             )
 
     elif call.data == "verify":
-        orderid = user_orders.get(call.from_user.id)
+        orderid = user_orders.get(str(call.from_user.id)+"_order")
 
         if not orderid:
             bot.send_message(call.message.chat.id, "❌ No order found")
@@ -208,24 +210,25 @@ def callback(call):
         if res.get("success") and res.get("status") == "TXN_SUCCESS":
             amount = res.get("amount")
 
+            plan_key = user_orders.get(call.from_user.id)
+            plan = plans.get(plan_key)
+            link = plan["link"]
+
             bot.send_message(
                 call.message.chat.id,
-                f"✅ Payment Successful\n\n💰 Amount: ₹{amount}\n🔓 Access Granted\n\n🔗 Channel Link: https://t.me/your_channel_link"
+                f"✅ Payment Successful\n\n💰 Amount: ₹{amount}\n🔓 Access Granted\n\n🔗 {link}"
             )
         else:
             bot.send_message(call.message.chat.id, "🚫 Payment not completed yet")
 
     elif call.data == "how_to":
-    markup = InlineKeyboardMarkup()
-    markup.add(
-        InlineKeyboardButton("📢 Join Channel", url="https://t.me/your_channel_link")
-    )
-
-    bot.send_message(
-        call.message.chat.id,
-        "📢 Click below to join channel",
-        reply_markup=markup
-    )
+        bot.send_message(
+            call.message.chat.id,
+            "👇",
+            reply_markup=InlineKeyboardMarkup().add(
+                InlineKeyboardButton("📢 Join Channel", url="https://t.me/your_channel_link")
+            )
+        )
 
     elif call.data == "back_start":
         markup = InlineKeyboardMarkup(row_width=1)
