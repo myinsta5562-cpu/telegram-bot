@@ -167,7 +167,7 @@ def callback(call):
             res = requests.get(url).json()
             print(res)  # debug
 
-            if res.get("success") and res.get("status") == "TXN_SUCCESS":
+            if res.get("success"):
                 amount = res.get("amount")
 
                 bot.send_message(
