@@ -124,7 +124,7 @@ def callback(call):
 
             if res.get("success"):
                 qr = res.get("qr_url")
-                orderid = res.get("orderid")   # 🔥 FIX
+                orderid = res.get("order_id")   # 🔥 FIX
 
                 if not orderid:
                     bot.send_message(call.message.chat.id, "❌ Order ID not received")
@@ -167,7 +167,7 @@ def callback(call):
             res = requests.get(url).json()
             print(res)  # debug
 
-            if res.get("success"):
+            if res.get("success") and res.get("status") == "TXN_SUCCESS":
                 amount = res.get("amount")
 
                 bot.send_message(
