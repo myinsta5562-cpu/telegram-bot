@@ -28,21 +28,22 @@ demo_videos = [
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    text = """🎬 Available Videos Collection?
+    text = """🎬 𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐕𝐢𝐝𝐞𝐨𝐬 𝐂𝐨𝐥𝐥𝐞𝐜𝐭𝐢𝐨𝐧
 
-1. Mom Son videos - 5000+
+𝟏. 𝐌𝐨𝐦 𝐒𝐨𝐧 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟓𝟎𝟎𝟎+
 
-2. Sister Brother videos -2000+
+𝟐. 𝐒𝐢𝐬𝐭𝐞𝐫 𝐁𝐫𝐨𝐭𝐡𝐞𝐫 𝐯𝐢𝐝𝐞𝐨𝐬 -𝟐𝟎𝟎𝟎+
 
-3. Cp kids videos - 15000+
+𝟑. 𝐂𝐩 𝐤𝐢𝐝𝐬 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟏𝟓𝟎𝟎𝟎+
 
-4. R@pe & Force videos-3000+
+𝟒. 𝐑@𝐩𝐞 & 𝐅𝐨𝐫𝐜𝐞 𝐯𝐢𝐝𝐞𝐨𝐬-𝟑𝟎𝟎𝟎+
 
-5. Teen Girl. Videos - 6000+
+𝟓. 𝐓𝐞𝐞𝐧 𝐆𝐢𝐫𝐥. 𝐕𝐢𝐝𝐞𝐨𝐬 - 𝟔𝟎𝟎𝟎+
 
-6. Indian desi videos - 10000+
+𝟔. 𝐈𝐧𝐝𝐢𝐚𝐧 𝐝𝐞𝐬𝐢 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟏𝟎𝟎𝟎𝟎+
 
-7. Hidden cam videos - 2000+
+𝟕. 𝐇𝐢𝐝𝐝𝐞𝐧 𝐜𝐚𝐦 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟐𝟎𝟎𝟎+
+
 """
 
     markup = InlineKeyboardMarkup(row_width=1)
@@ -184,7 +185,7 @@ def callback(call):
 
             markup = InlineKeyboardMarkup(row_width=1)
             markup.add(
-                InlineKeyboardButton("✅ Verify Payment", callback_data="verify"),
+                InlineKeyboardButton("✅ GET PRIVATE CHANNEL LINK ", callback_data="verify"),
                 InlineKeyboardButton("🔙 Back", callback_data="get_premium")
             )
 
@@ -244,21 +245,22 @@ def callback(call):
         bot.edit_message_media(
             media=InputMediaPhoto(
                 open("start.jpg", "rb"),
-                caption="""🎬 Available Videos Collection?
+                caption="""🎬 𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐕𝐢𝐝𝐞𝐨𝐬 𝐂𝐨𝐥𝐥𝐞𝐜𝐭𝐢𝐨𝐧
 
-1. Mom Son videos - 5000+
+𝟏. 𝐌𝐨𝐦 𝐒𝐨𝐧 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟓𝟎𝟎𝟎+
 
-2. Sister Brother videos -2000+
+𝟐. 𝐒𝐢𝐬𝐭𝐞𝐫 𝐁𝐫𝐨𝐭𝐡𝐞𝐫 𝐯𝐢𝐝𝐞𝐨𝐬 -𝟐𝟎𝟎𝟎+
 
-3. Cp kids videos - 15000+
+𝟑. 𝐂𝐩 𝐤𝐢𝐝𝐬 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟏𝟓𝟎𝟎𝟎+
 
-4. R@pe & Force videos-3000+
+𝟒. 𝐑@𝐩𝐞 & 𝐅𝐨𝐫𝐜𝐞 𝐯𝐢𝐝𝐞𝐨𝐬-𝟑𝟎𝟎𝟎+
 
-5. Teen Girl. Videos - 6000+
+𝟓. 𝐓𝐞𝐞𝐧 𝐆𝐢𝐫𝐥. 𝐕𝐢𝐝𝐞𝐨𝐬 - 𝟔𝟎𝟎𝟎+
 
-6. Indian desi videos - 10000+
+𝟔. 𝐈𝐧𝐝𝐢𝐚𝐧 𝐝𝐞𝐬𝐢 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟏𝟎𝟎𝟎𝟎+
 
-7. Hidden cam videos - 2000+
+𝟕. 𝐇𝐢𝐝𝐝𝐞𝐧 𝐜𝐚𝐦 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟐𝟎𝟎𝟎+
+
 """
             ),
             chat_id=call.message.chat.id,
