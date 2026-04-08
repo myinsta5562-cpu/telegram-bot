@@ -109,9 +109,9 @@ def callback(call):
 
     # ===== GET PREMIUM (QR SYSTEM) =====
     elif call.data == "get_premium":
-        upi = "paytm.s1zxmoz@pty"
-        amount = "100"
-        name = "ANUJ BOTS"
+        upi = "paytm.s1zssxv@pty"
+        amount = "5"
+        name = "paikarma"
 
         upi_encoded = urllib.parse.quote(upi)
         name_encoded = urllib.parse.quote(name)
@@ -153,8 +153,8 @@ def callback(call):
             bot.send_message(call.message.chat.id, "❌ No order found")
             return
 
-        merchantid = "NzmDCR37225908023870"
-        merchantkey = "NzmDCR37225908023870"
+        merchantid = "aFpena57399629842621"
+        merchantkey = "aFpena57399629842621"
 
         url = f"https://paytm.anujbots.xyz/verify.php?orderid={orderid}&merchantid={merchantid}&merchantkey={merchantkey}"
 
