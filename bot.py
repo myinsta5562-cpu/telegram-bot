@@ -124,12 +124,15 @@ def callback(call):
 
         photo = open("plans.jpg", "rb")
 
-        bot.send_photo(
-            call.message.chat.id,
-            photo,
-            caption="🔥 Choose Your Plan:",
-            reply_markup=markup
-        )
+        bot.edit_message_media(
+    media=telebot.types.InputMediaPhoto(
+        open("plans.jpg", "rb"),
+        caption="🔥 Choose Your Plan:"
+    ),
+    chat_id=call.message.chat.id,
+    message_id=call.message.message_id,
+    reply_markup=markup
+)
 
     elif call.data.startswith("buy_"):
         plan_key = call.data.split("_")[1]
@@ -163,9 +166,10 @@ def callback(call):
                 user_orders[call.from_user.id] = orderid
 
                 markup = InlineKeyboardMarkup()
-                markup.add(
-                    InlineKeyboardButton("✅ Verify Payment", callback_data="verify")
-                )
+markup.add(
+    InlineKeyboardButton("✅ Verify Payment", callback_data="verify"),
+    InlineKeyboardButton("🔙 Back", callback_data="get_premium")
+)
 
                 bot.send_photo(
                     call.message.chat.id,
