@@ -119,7 +119,7 @@ def callback(call):
         orderid = f"ORD_{random.randint(1000000000,9999999999)}"
         user_orders[call.from_user.id] = orderid
 
-        url = f"https://paytm.anujbots.xyz/qr.php?upi={upi_encoded}&amount={amount}&name={name_encoded}"
+        url = f"https://paytm.anujbots.xyz/qr.php?upi={upi_encoded}&amount={amount}&name={name_encoded}&orderid={orderid}"
 
         try:
             res = requests.get(url).json()
