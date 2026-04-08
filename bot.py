@@ -1,6 +1,7 @@
 import telebot
 import requests
 import random
+import time
 import urllib.parse
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
 
@@ -27,14 +28,9 @@ def start(message):
 
 For Desi Content Lovers 😋  
 No Sn#p, Pure Desi Content 😚  
-rare Desi le#ks ever.... 🎀  
-
-Just pay and get entry...  
-No - Ads Sh#t 🔥  
 
 Price :- ₹5 /-  
-Validity :- lifetime
-"""
+Validity :- lifetime"""
 
     markup = InlineKeyboardMarkup(row_width=1)
     markup.add(
@@ -43,14 +39,13 @@ Validity :- lifetime
         InlineKeyboardButton("📖 How To Get Premium", callback_data="how_to")
     )
 
-    photo = open("start.jpg", "rb")
-    bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
+    bot.send_message(message.chat.id, text, reply_markup=markup)
 
 # ===== CALLBACK =====
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
 
-    # ===== DEMO =====
+    # ===== DEMO START =====
     if call.data == "demo":
         index = 0
 
@@ -113,23 +108,22 @@ def callback(call):
         except Exception as e:
             print(e)
 
-    # ===== GET PREMIUM (QR SYSTEM) =====
+    # ===== GET PREMIUM =====
     elif call.data == "get_premium":
-        upi = "paytm.s1zssxv@pty"
+        upi = "paytm.s1zxmoz@pty"
         amount = "5"
+        name = "ANUJ BOTS"
 
-        upi_encoded = urllib.parse.quote(upi)
-
-        orderid = str(random.randint(100000, 999999))
+        orderid = f"ORD_{int(time.time())}_{random.randint(1000,9999)}"
         user_orders[call.from_user.id] = orderid
 
-        url = f"https://paytm.anujbots.xyz/qr.php?upi={upi_encoded}&amount={amount}&orderid={orderid}"
+        url = f"https://paytm.anujbots.xyz/qr.php?upi={upi}&amount={amount}&name={urllib.parse.quote(name)}"
 
         try:
             res = requests.get(url).json()
 
             if res.get("success"):
-                qr = res.get("qr_url")
+                qr = res.get("qr")
 
                 markup = InlineKeyboardMarkup()
                 markup.add(
@@ -143,7 +137,7 @@ def callback(call):
                     reply_markup=markup
                 )
             else:
-                bot.send_message(call.message.chat.id, "❌ QR generate failed")
+                bot.send_message(call.message.chat.id, "❌ QR failed")
 
         except Exception as e:
             print(e)
@@ -157,23 +151,19 @@ def callback(call):
             bot.send_message(call.message.chat.id, "❌ No order found")
             return
 
-        merchantid = "aFpena57399629842621"
-        merchantkey = "aFpena57399629842621"
+        merchantid = "NzmDCR37225908023870"
+        merchantkey = "NzmDCR37225908023870"
 
-        url = f"https://anujbots.xyz/paytm/verify.php?orderid={orderid}&merchantid={merchantid}&merchantkey={merchantkey}"
+        url = f"https://paytm.anujbots.xyz/verify.php?orderid={orderid}&merchantid={merchantid}&merchantkey={merchantkey}"
 
         try:
             res = requests.get(url).json()
+            print(res)
 
             if res.get("success") and res.get("status") == "TXN_SUCCESS":
-                amount = res.get("amount")
-
-                bot.send_message(
-                    call.message.chat.id,
-                    f"✅ Payment Successful\n\n💰 Amount: ₹{amount}\n🔓 Access Granted"
-                )
+                bot.send_message(call.message.chat.id, "✅ Payment Successful 🔓 Access Granted")
             else:
-                bot.send_message(call.message.chat.id, "🚫 Payment not completed yet")
+                bot.send_message(call.message.chat.id, "⏳ Payment Pending / Not Found")
 
         except:
             bot.send_message(call.message.chat.id, "❌ Verification failed")
@@ -182,12 +172,7 @@ def callback(call):
     elif call.data == "how_to":
         bot.send_message(
             call.message.chat.id,
-            """📖 How To Get Premium:
-
-1. Get Premium dabao  
-2. QR scan karke ₹5 pay karo  
-3. Verify Payment dabao  
-4. Access mil jayega ✅"""
+            "📖 How To Get Premium:\n\n1. Get Premium dabao\n2. QR scan karke ₹5 pay karo\n3. Verify dabao\n4. Access mil jayega"
         )
 
 # ===== RUN =====
