@@ -216,14 +216,21 @@ def callback(call):
             bot.send_message(call.message.chat.id, "🚫 Payment not completed yet")
 
     elif call.data == "how_to":
+        markup = InlineKeyboardMarkup()
+        markup.add(
+            InlineKeyboardButton("📢 Join Channel", url="https://t.me/your_channel_link")
+        )
+
         bot.send_message(
             call.message.chat.id,
             """📖 How To Get Premium:
 
-1. Get Premium dabao
-2. QR scan karke ₹5 pay karo
-3. Verify Payment dabao
-4. Access mil jayega ✅"""
+1. Pehle channel join karo 📢
+2. Get Premium dabao
+3. QR scan karke payment karo
+4. Verify Payment dabao
+5. Access mil jayega ✅""",
+            reply_markup=markup
         )
 
     elif call.data == "back_start":
