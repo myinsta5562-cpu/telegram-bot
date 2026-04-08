@@ -2,6 +2,7 @@ import telebot
 import requests
 import random
 import urllib.parse
+import threading
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo, InputMediaPhoto
 
 TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
@@ -9,11 +10,10 @@ bot = telebot.TeleBot(TOKEN)
 
 user_orders = {}
 
-# ===== PLANS =====
 plans = {
     "plan1": {"name": "R@P Videos", "price": "50"},
     "plan2": {"name": "Child Videos (50K+)", "price": "100"},
-    "plan3": {"name": "All in One (50 Groups)", "price": "300"}  # 🔥 shifted
+    "plan3": {"name": "All in One (50 Groups)", "price": "300"}
 }
 
 demo_videos = [
@@ -64,14 +64,21 @@ def callback(call):
             InlineKeyboardButton("🔙 Back", callback_data="back_start")
         )
 
-        bot.send_video(
+        msg = bot.send_video(
             call.message.chat.id,
             demo_videos[index],
             caption=f"🔞 Demo Video {index+1}",
             reply_markup=markup,
-            supports_streaming=True,
-            protect_content=True
+            supports_streaming=True
         )
+
+        def delete_msg():
+            try:
+                bot.delete_message(call.message.chat.id, msg.message_id)
+            except:
+                pass
+
+        threading.Timer(120, delete_msg).start()
 
     elif call.data.startswith("next_") or call.data.startswith("prev_"):
         data = call.data.split("_")
@@ -111,6 +118,14 @@ def callback(call):
             message_id=call.message.message_id,
             reply_markup=markup
         )
+
+        def delete_msg():
+            try:
+                bot.delete_message(call.message.chat.id, call.message.message_id)
+            except:
+                pass
+
+        threading.Timer(120, delete_msg).start()
 
     elif call.data == "get_premium":
         markup = InlineKeyboardMarkup(row_width=1)
