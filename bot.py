@@ -9,11 +9,11 @@ bot = telebot.TeleBot(TOKEN)
 
 user_orders = {}
 
+# ===== PLANS =====
 plans = {
     "plan1": {"name": "R@P Videos", "price": "50"},
     "plan2": {"name": "Child Videos (50K+)", "price": "100"},
-    "plan3": {"name": "All in One Group", "price": "150"},
-    "plan4": {"name": "All in One (50 Groups)", "price": "300"}
+    "plan3": {"name": "All in One (50 Groups)", "price": "300"}  # 🔥 shifted
 }
 
 demo_videos = [
@@ -117,8 +117,7 @@ def callback(call):
         markup.add(
             InlineKeyboardButton("👉 R@P Videos - ₹50", callback_data="buy_plan1"),
             InlineKeyboardButton("👉 Child Videos - ₹100", callback_data="buy_plan2"),
-            InlineKeyboardButton("👉 All in One Group - ₹150", callback_data="buy_plan3"),
-            InlineKeyboardButton("👉 All in One (50 Groups) - ₹300", callback_data="buy_plan4"),
+            InlineKeyboardButton("👉 All in One (50 Groups) - ₹300", callback_data="buy_plan3"),
             InlineKeyboardButton("🔙 Back", callback_data="back_start")
         )
 
@@ -196,7 +195,7 @@ def callback(call):
 
             bot.send_message(
                 call.message.chat.id,
-                f"✅ Payment Successful\n\n💰 Amount: ₹{amount}\n🔓 Access Granted"
+                f"✅ Payment Successful\n\n💰 Amount: ₹{amount}\n🔓 Access Granted\n\n🔗 Channel Link: https://t.me/your_channel_link"
             )
         else:
             bot.send_message(call.message.chat.id, "🚫 Payment not completed yet")
