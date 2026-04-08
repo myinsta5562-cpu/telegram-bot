@@ -11,9 +11,9 @@ bot = telebot.TeleBot(TOKEN)
 user_orders = {}
 
 plans = {
-    "plan1": {"name": "R@P Videos", "price": "50", "link": "https://t.me/your_channel1"},
-    "plan2": {"name": "Child Videos (50K+)", "price": "100", "link": "https://t.me/your_channel2"},
-    "plan3": {"name": "All in One (50 Groups)", "price": "300", "link": "https://t.me/your_channel3"}
+    "plan1": {"name": "R@P Videos", "price": "99", "link": "https://t.me/your_channel1"},
+    "plan2": {"name": "Child Videos (50K+)", "price": "149", "link": "https://t.me/your_channel2"},
+    "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/your_channel3"}
 }
 
 demo_videos = [
@@ -27,17 +27,21 @@ demo_videos = [
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    text = """🎬 Video Channel 🌸
+    text = """🎬 Available Videos Collection?
 
-For Desi Content Lovers 😋
-No Sn#p, Pure Desi Content 😚
-rare Desi le#ks ever.... 🎀
+1. Mom Son videos - 5000+
 
-Just pay and get entry...
-No - Ads Sh#t 🔥
+2. Sister Brother videos -2000+
 
-Price :- ₹5 /-
-Validity :- lifetime
+3. Cp kids videos - 15000+
+
+4. R@pe & Force videos-3000+
+
+5. Teen Girl. Videos - 6000+
+
+6. Indian desi videos - 10000+
+
+7. Hidden cam videos - 2000+
 """
 
     markup = InlineKeyboardMarkup(row_width=1)
@@ -130,9 +134,9 @@ def callback(call):
     elif call.data == "get_premium":
         markup = InlineKeyboardMarkup(row_width=1)
         markup.add(
-            InlineKeyboardButton("👉 R@P Videos - ₹50", callback_data="buy_plan1"),
-            InlineKeyboardButton("👉 Child Videos - ₹100", callback_data="buy_plan2"),
-            InlineKeyboardButton("👉 All in One (50 Groups) - ₹300", callback_data="buy_plan3"),
+            InlineKeyboardButton("👉 R@P Videos - ₹99", callback_data="buy_plan1"),
+            InlineKeyboardButton("👉 Child Videos - ₹149", callback_data="buy_plan2"),
+            InlineKeyboardButton("👉 All in One (50 Groups) - ₹249", callback_data="buy_plan3"),
             InlineKeyboardButton("🔙 Back", callback_data="back_start")
         )
 
@@ -179,7 +183,7 @@ def callback(call):
 
             markup = InlineKeyboardMarkup(row_width=1)
             markup.add(
-                InlineKeyboardButton("✅ Verify Payment", callback_data="verify"),
+                InlineKeyboardButton("✅ GET PRIVATE CHANNEL LINK", callback_data="verify"),
                 InlineKeyboardButton("🔙 Back", callback_data="get_premium")
             )
 
@@ -232,17 +236,21 @@ def callback(call):
         bot.edit_message_media(
             media=InputMediaPhoto(
                 open("start.jpg", "rb"),
-                caption="""🎬 Video Channel 🌸
+                caption="""🎬 Available Videos Collection?
 
-For Desi Content Lovers 😋
-No Sn#p, Pure Desi Content 😚
-rare Desi le#ks ever.... 🎀
+1. Mom Son videos - 5000+
 
-Just pay and get entry...
-No - Ads Sh#t 🔥
+2. Sister Brother videos -2000+
 
-Price :- ₹5 /-
-Validity :- lifetime
+3. Cp kids videos - 15000+
+
+4. R@pe & Force videos-3000+
+
+5. Teen Girl. Videos - 6000+
+
+6. Indian desi videos - 10000+
+
+7. Hidden cam videos - 2000+
 """
             ),
             chat_id=call.message.chat.id,
