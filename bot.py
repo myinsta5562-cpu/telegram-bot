@@ -2,7 +2,7 @@ import telebot
 import requests
 import random
 import urllib.parse
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo, InputMediaPhoto
 
 TOKEN = "8619415332:AAH5T5JW2ffE2Ut-fqnbEW0eOihSvEAzkKk"
 bot = telebot.TeleBot(TOKEN)
@@ -113,6 +113,7 @@ def callback(call):
         except Exception as e:
             print(e)
 
+    # ===== SHOW PLANS (EDIT MESSAGE) =====
     elif call.data == "get_premium":
         markup = InlineKeyboardMarkup(row_width=1)
         markup.add(
@@ -122,17 +123,15 @@ def callback(call):
             InlineKeyboardButton("👉 All in One (50 Groups) - ₹300", callback_data="buy_plan4")
         )
 
-        photo = open("plans.jpg", "rb")
-
         bot.edit_message_media(
-    media=telebot.types.InputMediaPhoto(
-        open("plans.jpg", "rb"),
-        caption="🔥 Choose Your Plan:"
-    ),
-    chat_id=call.message.chat.id,
-    message_id=call.message.message_id,
-    reply_markup=markup
-)
+            media=InputMediaPhoto(
+                open("plans.jpg", "rb"),
+                caption="🔥 Choose Your Plan:"
+            ),
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            reply_markup=markup
+        )
 
     elif call.data.startswith("buy_"):
         plan_key = call.data.split("_")[1]
@@ -166,10 +165,10 @@ def callback(call):
                 user_orders[call.from_user.id] = orderid
 
                 markup = InlineKeyboardMarkup()
-markup.add(
-    InlineKeyboardButton("✅ Verify Payment", callback_data="verify"),
-    InlineKeyboardButton("🔙 Back", callback_data="get_premium")
-)
+                markup.add(
+                    InlineKeyboardButton("✅ Verify Payment", callback_data="verify"),
+                    InlineKeyboardButton("🔙 Back", callback_data="get_premium")
+                )
 
                 bot.send_photo(
                     call.message.chat.id,
