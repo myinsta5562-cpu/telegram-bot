@@ -44,7 +44,7 @@ Validity :- lifetime
     markup.add(
         InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
         InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
-        InlineKeyboardButton("📖 How To Get Premium", callback_data="how_to")
+        InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/your_channel_link")  # 🔥 FIX
     )
 
     photo = open("start.jpg", "rb")
@@ -154,7 +154,7 @@ def callback(call):
             bot.send_message(call.message.chat.id, "❌ Plan not found")
             return
 
-        user_orders[call.from_user.id] = plan_key  # 🔥 store plan
+        user_orders[call.from_user.id] = plan_key
 
         upi = "paytm.s1zssxv@pty"
         amount = plan["price"]
@@ -221,21 +221,12 @@ def callback(call):
         else:
             bot.send_message(call.message.chat.id, "🚫 Payment not completed yet")
 
-    elif call.data == "how_to":
-        bot.send_message(
-            call.message.chat.id,
-            "👇",
-            reply_markup=InlineKeyboardMarkup().add(
-                InlineKeyboardButton("📢 Join Channel", url="https://t.me/your_channel_link")
-            )
-        )
-
     elif call.data == "back_start":
         markup = InlineKeyboardMarkup(row_width=1)
         markup.add(
             InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
             InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
-            InlineKeyboardButton("📖 How To Get Premium", callback_data="how_to")
+            InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/your_channel_link")  # 🔥 SAME FIX
         )
 
         bot.edit_message_media(
