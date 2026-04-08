@@ -110,8 +110,8 @@ def callback(call):
     # ===== GET PREMIUM (FIXED QR SYSTEM) =====
     elif call.data == "get_premium":
         upi = "paytm.s1zssxv@pty"
-        amount = "100"
-        name = "ANUJ BOTS"
+        amount = "1"
+        name = "paikarma"
 
         upi_encoded = urllib.parse.quote(upi)
         name_encoded = urllib.parse.quote(name)
