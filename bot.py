@@ -186,7 +186,6 @@ def callback(call):
             markup = InlineKeyboardMarkup(row_width=1)
             markup.add(
                 InlineKeyboardButton("✅ GET PRIVATE CHANNEL LINK ", callback_data="verify"),
-                InlineKeyboardButton("🔙 Back", callback_data="get_premium")
             )
 
             bot.edit_message_media(
