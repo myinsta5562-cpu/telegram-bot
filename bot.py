@@ -265,29 +265,6 @@ def callback(call):
             message_id=call.message.message_id,
             reply_markup=markup
         )
-# ---------------- GET FILE IDs ---------------- #
-@bot.message_handler(content_types=['photo'])
-def get_photo_id(message):
-    try:
-        file_id = message.photo[-1].file_id
-        bot.reply_to(message, f"📸 PHOTO ID:\n{file_id}")
-    except:
-        pass
 
-@bot.message_handler(content_types=['video'])
-def get_video_id(message):
-    try:
-        file_id = message.video.file_id
-        bot.reply_to(message, f"🎥 VIDEO ID:\n{file_id}")
-    except:
-        pass
-
-@bot.message_handler(content_types=['animation'])
-def get_gif_id(message):
-    try:
-        file_id = message.animation.file_id
-        bot.reply_to(message, f"🎬 GIF ID:\n{file_id}")
-    except:
-        pass
 print("Bot running...")
 bot.infinity_polling()
