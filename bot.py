@@ -12,8 +12,8 @@ user_orders = {}
 used_orders = set()  # ✅ FIX
 
 plans = {
-    "plan1": {"name": "R@P Videos", "price": "99", "link": "https://t.me/+xjrUu9DY2-g3Njll"},
-    "plan2": {"name": "Child Videos (50K+)", "price": "149", "link": "https://t.me/+GX_kLFooS_UyNjdl"},
+    "plan1": {"name": "R@P Videos", "price": "99", "link": "https://t.me/+XEFptFfnlyVlZjVl"},
+    "plan2": {"name": "Child Videos (50K+)", "price": "149", "link": "https://t.me/+tmX8j1uPLqFjMjQ1"},
     "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/+SU9im5bsLZozODg1"}
 }
 
@@ -49,7 +49,7 @@ def start(message):
     markup.add(
         InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
         InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
-        InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+-heSylYPn5pmYWE1")
+        InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+sjhIa5apzEE0MTE1")
     )
 
     photo = open("start.jpg", "rb")
@@ -237,7 +237,7 @@ def callback(call):
         markup.add(
             InlineKeyboardButton("💎 Get Premium", callback_data="get_premium"),
             InlineKeyboardButton("🥵 Demo Videos", callback_data="demo"),
-            InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+-heSylYPn5pmYWE1")
+            InlineKeyboardButton("📖 How To Get Premium", url="https://t.me/+sjhIa5apzEE0MTE1")
         )
 
         bot.edit_message_media(
