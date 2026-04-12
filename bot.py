@@ -12,9 +12,9 @@ user_orders = {}
 used_orders = set()  # ✅ FIX
 
 plans = {
-    "plan1": {"name": "R@P Videos", "price": "99", "link": "https://t.me/+XEFptFfnlyVlZjVl"},
-    "plan2": {"name": "Child Videos (50K+)", "price": "149", "link": "https://t.me/+tmX8j1uPLqFjMjQ1"},
-    "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/+SU9im5bsLZozODg1"}
+    "plan1": {"name": "R@P Videos", "price": "99", "link": "https://t.me/+A_WqvGYW64kzMGM1"},
+    "plan2": {"name": "Child Videos (50K+)", "price": "149", "link": "https://t.me/+l5vBpSJUvuFiMTg1"},
+    "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/+Pe4fTs485hc2MDRl"}
 }
 
 demo_videos = [
