@@ -14,7 +14,8 @@ used_orders = set()  # ✅ FIX
 plans = {
     "plan1": {"name": "R@P Videos", "price": "99", "link": "https://t.me/+A_WqvGYW64kzMGM1"},
     "plan2": {"name": "Child Videos (50K+)", "price": "149", "link": "https://t.me/+l5vBpSJUvuFiMTg1"},
-    "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/+Pe4fTs485hc2MDRl"}
+    "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/+Pe4fTs485hc2MDRl"},
+    "plan4": {"name": "VIP PURE €P (100K+)", "price": "649", "link": "https://t.me/+SU9im5bsLZozODg1"}
 }
 
 demo_videos = [
@@ -138,6 +139,7 @@ def callback(call):
             InlineKeyboardButton("👉 R@P Videos - ₹99", callback_data="buy_plan1"),
             InlineKeyboardButton("👉 Child Videos - ₹149", callback_data="buy_plan2"),
             InlineKeyboardButton("👉 All in One (50 Groups) - ₹249", callback_data="buy_plan3"),
+            InlineKeyboardButton("👉 VIP PURE €P (100K+ VIDEOS) - ₹649", callback_data="buy_plan4"),
             InlineKeyboardButton("🔙 Back", callback_data="back_start")
         )
 
