@@ -136,7 +136,7 @@ def callback(call):
     elif call.data == "get_premium":
         markup = InlineKeyboardMarkup(row_width=1)
         markup.add(
-            InlineKeyboardButton("👉 RP Videos - ₹99", callback_data="buy_plan1"),
+            InlineKeyboardButton("👉 RP - ₹99", callback_data="buy_plan1"),
             InlineKeyboardButton("👉 €P - ₹149", callback_data="buy_plan2"),
             InlineKeyboardButton("👉 All in One (50 Groups) - ₹249", callback_data="buy_plan3"),
             InlineKeyboardButton("👉 VIP PURE €P (100K+ VIDEOS) - ₹649", callback_data="buy_plan4"),
