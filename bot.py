@@ -12,8 +12,8 @@ user_orders = {}
 used_orders = set()  # ✅ FIX
 
 plans = {
-    "plan1": {"name": "R@P Videos", "price": "99", "link": "https://t.me/+A_WqvGYW64kzMGM1"},
-    "plan2": {"name": "Child Videos (50K+)", "price": "149", "link": "https://t.me/+l5vBpSJUvuFiMTg1"},
+    "plan1": {"name": "RP Videos", "price": "99", "link": "https://t.me/+A_WqvGYW64kzMGM1"},
+    "plan2": {"name": "€P Videos (50K+)", "price": "149", "link": "https://t.me/+l5vBpSJUvuFiMTg1"},
     "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/+Pe4fTs485hc2MDRl"},
     "plan4": {"name": "VIP PURE €P (100K+)", "price": "649", "link": "https://t.me/+s4x5B2nHcZg0ZjM1"}
 }
@@ -34,9 +34,9 @@ def start(message):
 
 𝟐. 𝐒𝐢𝐬𝐭𝐞𝐫 𝐁𝐫𝐨𝐭𝐡𝐞𝐫 𝐯𝐢𝐝𝐞𝐨𝐬 -𝟐𝟎𝟎𝟎+
 
-𝟑. 𝐂𝐩 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟏𝟓𝟎𝟎𝟎+
+𝟑. 𝐜𝐩 - 𝟏𝟓𝟎𝟎𝟎+
 
-𝟒. 𝐑@𝐩 - 𝟑𝟎𝟎𝟎+
+𝟒. 𝐫𝐩 - 𝟑𝟎𝟎𝟎+
 
 𝟓. 𝐓𝐞𝐞𝐧 𝐆𝐢𝐫𝐥. 𝐕𝐢𝐝𝐞𝐨𝐬 - 𝟔𝟎𝟎𝟎+
 
