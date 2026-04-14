@@ -15,7 +15,7 @@ plans = {
     "plan1": {"name": "RP V!D€OS", "price": "99", "link": "https://t.me/+A_WqvGYW64kzMGM1"},
     "plan2": {"name": "€P V!D€OS (50K+)", "price": "149", "link": "https://t.me/+l5vBpSJUvuFiMTg1"},
     "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/+Pe4fTs485hc2MDRl"},
-    "plan4": {"name": "VIP PURE €P ALL (100K+)", "price": "499", "link": "https://t.me/+s4x5B2nHcZg0ZjM1"}
+    "plan4": {"name": "VIP PURE €P ALL (100K+)", "price": "499", "link": "https://t.me/+uIds7XcdOgpjYzhl"}
 }
 
 demo_videos = [
