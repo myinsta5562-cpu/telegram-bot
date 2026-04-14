@@ -12,10 +12,10 @@ user_orders = {}
 used_orders = set()  # ✅ FIX
 
 plans = {
-    "plan1": {"name": "5K+ VDOS", "price": "99", "link": "https://t.me/+A_WqvGYW64kzMGM1"},
-    "plan2": {"name": "20K+ VDOS (50K+)", "price": "149", "link": "https://t.me/+l5vBpSJUvuFiMTg1"},
+    "plan1": {"name": "RP V!D€OS", "price": "99", "link": "https://t.me/+A_WqvGYW64kzMGM1"},
+    "plan2": {"name": "€P V!D€OS (50K+)", "price": "149", "link": "https://t.me/+l5vBpSJUvuFiMTg1"},
     "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/+Pe4fTs485hc2MDRl"},
-    "plan4": {"name": "VIP PURE (100K+)", "price": "499", "link": "https://t.me/+s4x5B2nHcZg0ZjM1"}
+    "plan4": {"name": "VIP PURE ALL (100K+)", "price": "499", "link": "https://t.me/+s4x5B2nHcZg0ZjM1"}
 }
 
 demo_videos = [
@@ -28,18 +28,21 @@ demo_videos = [
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    text = """🎬 𝐕𝐢𝐝𝐞𝐨𝐬 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🌸
+    text = """🎬 𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐕𝐢𝐝𝐞𝐨𝐬 𝐂𝐨𝐥𝐥𝐞𝐜𝐭𝐢𝐨𝐧
 
-𝐅𝐨𝐫 𝐃𝐞𝐬𝐢 𝐂𝐨𝐧𝐭𝐞𝐧𝐭 𝐋𝐨𝐯𝐞𝐫𝐬 😋
+𝟏. 𝐌𝟎𝐌 𝐒𝟎𝐍 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟓𝟎𝟎𝟎+
 
-𝐍𝐨 𝐒𝐧#𝐩, 𝐏𝐮𝐫𝐞 𝐃𝐞𝐬𝐢 𝐂𝐨𝐧𝐭𝐞𝐧𝐭 😙
+𝟐. 𝐒!𝐬𝐭𝐞𝐫 𝐁𝐫𝟎𝐭𝐡𝐞𝐫 𝐯𝐢𝐝𝐞𝐨𝐬 -𝟐𝟎𝟎𝟎+
 
-𝟓𝟏𝟎𝟎𝟎+ 𝐫𝐚𝐫𝐞 𝐃𝐞𝐬𝐢 𝐥𝐞#𝐤𝐬 𝐞𝐯𝐞𝐫.... 🎀
+𝟑. €𝐏 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟏𝟓𝟎𝟎𝟎+
 
-𝐉𝐮𝐬𝐭 𝐩𝐚𝐲 𝐚𝐧𝐝 𝐠𝐞𝐭 𝐞𝐧𝐭𝐫𝐲..
+𝟒. 𝐑𝐏 - 𝟑𝟎𝟎𝟎+
 
-𝐕𝐚𝐥𝐢𝐝𝐢𝐭𝐲 :- 𝐥𝐢𝐟𝐞𝐭𝐢𝐦𝐞
+𝟓. 𝐓𝐞𝐞𝐧 𝐆𝐢𝐫𝐥. 𝐕𝐢𝐝𝐞𝐨𝐬 - 𝟔𝟎𝟎𝟎+
 
+𝟔. 𝐈𝐧𝐝𝐢𝐚𝐧 𝐝𝐞𝐬𝐢 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟏𝟎𝟎𝟎𝟎+
+
+𝟕. 𝐇𝐢𝐝𝐝𝐞𝐧 𝐜𝐚𝐦 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟐𝟎𝟎𝟎+
 """
 
     markup = InlineKeyboardMarkup(row_width=1)
@@ -132,10 +135,10 @@ def callback(call):
     elif call.data == "get_premium":
         markup = InlineKeyboardMarkup(row_width=1)
         markup.add(
-            InlineKeyboardButton("👉 5K+ VDOS - ₹99", callback_data="buy_plan1"),
-            InlineKeyboardButton("👉 20K+ VDOS - ₹149", callback_data="buy_plan2"),
+            InlineKeyboardButton("👉 RP V!D€OS - ₹99", callback_data="buy_plan1"),
+            InlineKeyboardButton("👉 €P V!D€OS - ₹149", callback_data="buy_plan2"),
             InlineKeyboardButton("👉 All in One (50 Groups) - ₹249", callback_data="buy_plan3"),
-            InlineKeyboardButton("👉 VIP PURE Vdos (100K+ VIDEOS) - ₹499", callback_data="buy_plan4"),
+            InlineKeyboardButton("👉 VIP PURE ALL Vdos (100K+ VIDEOS) - ₹499", callback_data="buy_plan4"),
             InlineKeyboardButton("🔙 Back", callback_data="back_start")
         )
 
@@ -241,18 +244,21 @@ def callback(call):
         bot.edit_message_media(
             media=InputMediaPhoto(
                 open("start.jpg", "rb"),
-                caption="""🎬 𝐕𝐢𝐝𝐞𝐨𝐬 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🌸
+                caption="""🎬 𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐕𝐢𝐝𝐞𝐨𝐬 𝐂𝐨𝐥𝐥𝐞𝐜𝐭𝐢𝐨𝐧
 
-𝐅𝐨𝐫 𝐃𝐞𝐬𝐢 𝐂𝐨𝐧𝐭𝐞𝐧𝐭 𝐋𝐨𝐯𝐞𝐫𝐬 😋
+𝟏. 𝐌𝟎𝐌 𝐒𝟎𝐍 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟓𝟎𝟎𝟎+
 
-𝐍𝐨 𝐒𝐧#𝐩, 𝐏𝐮𝐫𝐞 𝐃𝐞𝐬𝐢 𝐂𝐨𝐧𝐭𝐞𝐧𝐭 😙
+𝟐. 𝐒!𝐬𝐭𝐞𝐫 𝐁𝐫𝟎𝐭𝐡𝐞𝐫 𝐯𝐢𝐝𝐞𝐨𝐬 -𝟐𝟎𝟎𝟎+
 
-𝟓𝟏𝟎𝟎𝟎+ 𝐫𝐚𝐫𝐞 𝐃𝐞𝐬𝐢 𝐥𝐞#𝐤𝐬 𝐞𝐯𝐞𝐫.... 🎀
+𝟑. €𝐏 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟏𝟓𝟎𝟎𝟎+
 
-𝐉𝐮𝐬𝐭 𝐩𝐚𝐲 𝐚𝐧𝐝 𝐠𝐞𝐭 𝐞𝐧𝐭𝐫𝐲..
+𝟒. 𝐑𝐏 - 𝟑𝟎𝟎𝟎+
 
-𝐕𝐚𝐥𝐢𝐝𝐢𝐭𝐲 :- 𝐥𝐢𝐟𝐞𝐭𝐢𝐦𝐞
+𝟓. 𝐓𝐞𝐞𝐧 𝐆𝐢𝐫𝐥. 𝐕𝐢𝐝𝐞𝐨𝐬 - 𝟔𝟎𝟎𝟎+
 
+𝟔. 𝐈𝐧𝐝𝐢𝐚𝐧 𝐝𝐞𝐬𝐢 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟏𝟎𝟎𝟎𝟎+
+
+𝟕. 𝐇𝐢𝐝𝐝𝐞𝐧 𝐜𝐚𝐦 𝐯𝐢𝐝𝐞𝐨𝐬 - 𝟐𝟎𝟎𝟎+
 """
             ),
             chat_id=call.message.chat.id,
