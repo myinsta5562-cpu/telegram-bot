@@ -15,7 +15,7 @@ plans = {
     "plan1": {"name": "RP V!D€OS", "price": "99", "link": "https://t.me/+A_WqvGYW64kzMGM1"},
     "plan2": {"name": "€P V!D€OS", "price": "149", "link": "https://t.me/+A_WqvGYW64kzMGM1"},
     "plan3": {"name": "All in One (50 Groups)", "price": "249", "link": "https://t.me/+Pe4fTs485hc2MDRl"},
-    "plan4": {"name": "VIP PURE €P ALL (100K+)", "price": "499", "link": "https://t.me/+uIds7XcdOgpjYzhl"}
+    "plan4": {"name": "M0M S0N AND CP ALL (100K+)", "price": "499", "link": "https://t.me/+uIds7XcdOgpjYzhl"}
 }
 
 demo_videos = [
@@ -138,7 +138,7 @@ def callback(call):
             InlineKeyboardButton("👉 RP V!D€OS - ₹99", callback_data="buy_plan1"),
             InlineKeyboardButton("👉 €P V!D€OS - ₹149", callback_data="buy_plan2"),
             InlineKeyboardButton("👉 All in One (50 Groups) - ₹249", callback_data="buy_plan3"),
-            InlineKeyboardButton("👉 VIP PURE €P ALL Vdos (100K+ VIDEOS) - ₹499", callback_data="buy_plan4"),
+            InlineKeyboardButton("👉 M0M S0N & CP ALL Vdos (100K+ VIDEOS) - ₹499", callback_data="buy_plan4"),
             InlineKeyboardButton("🔙 Back", callback_data="back_start")
         )
 
