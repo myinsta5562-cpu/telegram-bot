@@ -160,9 +160,9 @@ def callback(call):
 
         user_orders[call.from_user.id] = plan_key
 
-        upi = "paytmqr5meeza@ptys"
+        upi = "yogeshbhardwaj01@ptaxis"
         amount = plan["price"]
-        name = "paikarma"
+        name = "yug"
 
         upi_encoded = urllib.parse.quote(upi)
         name_encoded = urllib.parse.quote(name)
